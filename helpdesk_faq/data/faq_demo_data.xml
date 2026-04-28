@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- ============================================================
+             Tags
+        ============================================================ -->
+        <record id="faq_tag_billing" model="faq.tag">
+            <field name="name">Billing</field>
+            <field name="color">1</field>
+        </record>
+
+        <record id="faq_tag_technical" model="faq.tag">
+            <field name="name">Technical</field>
+            <field name="color">2</field>
+        </record>
+
+        <record id="faq_tag_account" model="faq.tag">
+            <field name="name">Account</field>
+            <field name="color">3</field>
+        </record>
+
+        <record id="faq_tag_shipping" model="faq.tag">
+            <field name="name">Shipping</field>
+            <field name="color">4</field>
+        </record>
+
+        <record id="faq_tag_returns" model="faq.tag">
+            <field name="name">Returns</field>
+            <field name="color">5</field>
+        </record>
+
+        <record id="faq_tag_security" model="faq.tag">
+            <field name="name">Security</field>
+            <field name="color">6</field>
+        </record>
+
+        <!-- ============================================================
+             Categories
+        ============================================================ -->
+        <record id="faq_category_general" model="faq.category">
+            <field name="name">General</field>
+            <field name="description">General questions about our service</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="faq_category_billing" model="faq.category">
+            <field name="name">Billing &amp; Payments</field>
+            <field name="description">Questions about invoices, payments and subscriptions</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <record id="faq_category_technical" model="faq.category">
+            <field name="name">Technical Support</field>
+            <field name="description">Technical issues, troubleshooting and integrations</field>
+            <field name="sequence">30</field>
+        </record>
+
+        <record id="faq_category_account" model="faq.category">
+            <field name="name">Account &amp; Security</field>
+            <field name="description">Account management, passwords and security settings</field>
+            <field name="sequence">40</field>
+        </record>
+
+        <record id="faq_category_shipping" model="faq.category">
+            <field name="name">Shipping &amp; Returns</field>
+            <field name="description">Delivery, tracking and return policy</field>
+            <field name="sequence">50</field>
+        </record>
+
+        <!-- ============================================================
+             Questions — General
+        ============================================================ -->
+        <record id="faq_q_what_is" model="faq.question">
+            <field name="name">What is your service and who is it for?</field>
+            <field name="answer" type="html">
+                <p>Our service is designed for businesses of all sizes who want to streamline
+                their operations. Whether you are a small startup or a large enterprise, we
+                provide tools that adapt to your specific needs.</p>
+                <p>Key highlights:</p>
+                <ul>
+                    <li>Easy to set up — get started in minutes</li>
+                    <li>Scalable — grows with your business</li>
+                    <li>24/7 support available on all plans</li>
+                </ul>
+            </field>
+            <field name="category_id" ref="faq_category_general"/>
+            <field name="sequence">10</field>
+            <field name="state">published</field>
+        </record>
+
+        <record id="faq_q_free_trial" model="faq.question">
+            <field name="name">Do you offer a free trial?</field>
+            <field name="answer" type="html">
+                <p>Yes! We offer a <strong>14-day free trial</strong> with full access to all
+                features — no credit card required.</p>
+                <p>At the end of your trial you can choose any of our paid plans or your account
+                will simply expire with no charges.</p>
+            </field>
+            <field name="category_id" ref="faq_category_general"/>
+            <field name="sequence">20</field>
+            <field name="state">published</field>
+        </record>
+
+        <record id="faq_q_languages" model="faq.question">
+            <field name="name">What languages does the platform support?</field>
+            <field name="answer" type="html">
+                <p>The platform is currently available in the following languages:</p>
+                <ul>
+                    <li>English</li>
+                    <li>Arabic</li>
+                    <li>French</li>
+                    <li>Spanish</li>
+                    <li>German</li>
+                </ul>
+                <p>More languages are added regularly based on user demand.</p>
+            </field>
+            <field name="category_id" ref="faq_category_general"/>
+            <field name="sequence">30</field>
+            <field name="state">published</field>
+        </record>
+
+        <!-- ============================================================
+             Questions — Billing
+        ============================================================ -->
+        <record id="faq_q_payment_methods" model="faq.question">
+            <field name="name">What payment methods do you accept?</field>
+            <field name="answer" type="html">
+                <p>We accept the following payment methods:</p>
+                <ul>
+                    <li>Credit and debit cards (Visa, MasterCard, Amex)</li>
+                    <li>Bank transfer (for annual plans)</li>
+                    <li>PayPal</li>
+                </ul>
+                <p>All payments are processed securely through our payment gateway.
+                Your card details are never stored on our servers.</p>
+            </field>
+            <field name="category_id" ref="faq_category_billing"/>
+            <field name="tag_ids" eval="[(4, ref('faq_tag_billing'))]"/>
+            <field name="sequence">10</field>
+            <field name="state">published</field>
+        </record>
+
+        <record id="faq_q_invoice" model="faq.question">
+            <field name="name">How do I get my invoice?</field>
+            <field name="answer" type="html">
+                <p>Invoices are generated automatically after every successful payment and are
+                sent to the email address on your account.</p>
+                <p>You can also download all past invoices from:</p>
+                <ol>
+                    <li>Log in to your account</li>
+                    <li>Go to <strong>Settings → Billing</strong></li>
+                    <li>Click <em>Download Invoice</em> next to any transaction</li>
+                </ol>
+            </field>
+            <field name="category_id" ref="faq_category_billing"/>
+            <field name="tag_ids" eval="[(4, ref('faq_tag_billing'))]"/>
+            <field name="sequence">20</field>
+            <field name="state">published</field>
+        </record>
+
+        <record id="faq_q_cancel_subscription" model="faq.question">
+            <field name="name">Can I cancel my subscription at any time?</field>
+            <field name="answer" type="html">
+                <p>Yes, you can cancel your subscription at any time from your account settings.
+                There are no long-term contracts or cancellation fees.</p>
+                <p>When you cancel:</p>
+                <ul>
+                    <li>Your account remains active until the end of the current billing period</li>
+                    <li>You will not be charged again</li>
+                    <li>Your data is retained for 30 days after cancellation</li>
+                </ul>
+            </field>
+            <field name="category_id" ref="faq_category_billing"/>
+            <field name="tag_ids" eval="[(4, ref('faq_tag_billing'))]"/>
+            <field name="sequence">30</field>
+            <field name="state">published</field>
+        </record>
+
+        <!-- ============================================================
+             Questions — Technical
+        ============================================================ -->
+        <record id="faq_q_api" model="faq.question">
+            <field name="name">Do you provide an API for integration?</field>
+            <field name="answer" type="html">
+                <p>Yes! We provide a full RESTful API that allows you to integrate our platform
+                with any third-party system.</p>
+                <p>The API supports:</p>
+                <ul>
+                    <li>JSON responses</li>
+                    <li>OAuth 2.0 authentication</li>
+                    <li>Webhooks for real-time events</li>
+                </ul>
+                <p>Full API documentation is available at
+                <a href="#">developer.ourplatform.com</a>.</p>
+            </field>
+            <field name="category_id" ref="faq_category_technical"/>
+            <field name="tag_ids" eval="[(4, ref('faq_tag_technical'))]"/>
+            <field name="sequence">10</field>
+            <field name="state">published</field>
+        </record>
+
+        <record id="faq_q_browser_support" model="faq.question">
+            <field name="name">Which browsers are supported?</field>
+            <field name="answer" type="html">
+                <p>The platform is fully supported on the following browsers:</p>
+                <ul>
+                    <li>Google Chrome (recommended) — latest 2 versions</li>
+                    <li>Mozilla Firefox — latest 2 versions</li>
+                    <li>Microsoft Edge — latest 2 versions</li>
+                    <li>Safari — version 14 and above</li>
+                </ul>
+                <p>Internet Explorer is not supported.</p>
+            </field>
+            <field name="category_id" ref="faq_category_technical"/>
+            <field name="tag_ids" eval="[(4, ref('faq_tag_technical'))]"/>
+            <field name="sequence">20</field>
+            <field name="state">published</field>
+        </record>
+
+        <!-- ============================================================
+             Questions — Account & Security
+        ============================================================ -->
+        <record id="faq_q_reset_password" model="faq.question">
+            <field name="name">How do I reset my password?</field>
+            <field name="answer" type="html">
+                <p>To reset your password, follow these steps:</p>
+                <ol>
+                    <li>Go to the login page</li>
+                    <li>Click <strong>Forgot Password?</strong></li>
+                    <li>Enter your registered email address</li>
+                    <li>Check your inbox for the reset link (valid for 24 hours)</li>
+                    <li>Click the link and set a new password</li>
+                </ol>
+                <p>If you do not receive the email, please check your spam folder or
+                contact our support team.</p>
+            </field>
+            <field name="category_id" ref="faq_category_account"/>
+            <field name="tag_ids" eval="[(4, ref('faq_tag_account')), (4, ref('faq_tag_security'))]"/>
+            <field name="sequence">10</field>
+            <field name="state">published</field>
+        </record>
+
+        <record id="faq_q_two_factor" model="faq.question">
+            <field name="name">Does the platform support two-factor authentication (2FA)?</field>
+            <field name="answer" type="html">
+                <p>Yes, we support two-factor authentication (2FA) via:</p>
+                <ul>
+                    <li>Authenticator apps (Google Authenticator, Authy)</li>
+                    <li>SMS verification</li>
+                </ul>
+                <p>To enable 2FA go to <strong>Settings → Security → Two-Factor Authentication</strong>
+                and follow the setup wizard.</p>
+                <p><strong>We strongly recommend enabling 2FA</strong> to protect your account.</p>
+            </field>
+            <field name="category_id" ref="faq_category_account"/>
+            <field name="tag_ids" eval="[(4, ref('faq_tag_security'))]"/>
+            <field name="sequence">20</field>
+            <field name="state">published</field>
+        </record>
+
+        <!-- ============================================================
+             Questions — Shipping
+        ============================================================ -->
+        <record id="faq_q_shipping_time" model="faq.question">
+            <field name="name">How long does shipping take?</field>
+            <field name="answer" type="html">
+                <p>Shipping times depend on your location:</p>
+                <ul>
+                    <li><strong>Local (UAE):</strong> 1–2 business days</li>
+                    <li><strong>GCC countries:</strong> 3–5 business days</li>
+                    <li><strong>International:</strong> 7–14 business days</li>
+                </ul>
+                <p>You will receive a tracking number via email once your order is dispatched.</p>
+            </field>
+            <field name="category_id" ref="faq_category_shipping"/>
+            <field name="tag_ids" eval="[(4, ref('faq_tag_shipping'))]"/>
+            <field name="sequence">10</field>
+            <field name="state">published</field>
+        </record>
+
+        <record id="faq_q_returns" model="faq.question">
+            <field name="name">What is your return policy?</field>
+            <field name="answer" type="html">
+                <p>We offer a <strong>30-day return policy</strong> on all eligible items.</p>
+                <p>To initiate a return:</p>
+                <ol>
+                    <li>Log in to your account and go to <strong>Orders</strong></li>
+                    <li>Select the order and click <em>Request Return</em></li>
+                    <li>Choose the items and reason for return</li>
+                    <li>Print the prepaid return label and drop off the package</li>
+                </ol>
+                <p>Refunds are processed within 5–7 business days after we receive the item.</p>
+            </field>
+            <field name="category_id" ref="faq_category_shipping"/>
+            <field name="tag_ids" eval="[(4, ref('faq_tag_shipping')), (4, ref('faq_tag_returns'))]"/>
+            <field name="sequence">20</field>
+            <field name="state">published</field>
+        </record>
+
+        <!-- ============================================================
+             Draft question example (intentionally not published)
+        ============================================================ -->
+        <record id="faq_q_draft_example" model="faq.question">
+            <field name="name">How do I export my data?</field>
+            <field name="answer" type="html">
+                <p>This answer is being prepared. Please check back soon.</p>
+            </field>
+            <field name="category_id" ref="faq_category_technical"/>
+            <field name="tag_ids" eval="[(4, ref('faq_tag_technical'))]"/>
+            <field name="sequence">30</field>
+            <field name="state">draft</field>
+        </record>
+
+    </data>
+</odoo>

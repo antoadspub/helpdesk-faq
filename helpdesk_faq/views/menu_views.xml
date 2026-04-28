@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Root Menu
+    ============================================================ -->
+    <menuitem
+        id="menu_faq_root"
+        name="FAQ"
+        sequence="50"
+        web_icon="helpdesk_faq,static/description/icon.png"
+        groups="helpdesk_faq.group_faq_user"/>
+
+    <!-- ============================================================
+         Main Items
+    ============================================================ -->
+    <menuitem
+        id="menu_faq_questions"
+        name="Questions"
+        parent="menu_faq_root"
+        action="action_faq_question"
+        sequence="10"
+        groups="helpdesk_faq.group_faq_user"/>
+
+    <menuitem
+        id="menu_faq_categories"
+        name="Categories"
+        parent="menu_faq_root"
+        action="action_faq_category"
+        sequence="20"
+        groups="helpdesk_faq.group_faq_user"/>
+
+    <!-- ============================================================
+         Configuration (Manager only)
+    ============================================================ -->
+    <menuitem
+        id="menu_faq_config"
+        name="Configuration"
+        parent="menu_faq_root"
+        sequence="99"
+        groups="helpdesk_faq.group_faq_manager"/>
+
+    <menuitem
+        id="menu_faq_tags"
+        name="Tags"
+        parent="menu_faq_config"
+        action="action_faq_tag"
+        sequence="10"
+        groups="helpdesk_faq.group_faq_manager"/>
+
+</odoo>

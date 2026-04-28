@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_faq_category_user,faq.category user,model_faq_category,helpdesk_faq.group_faq_user,1,0,0,0
+access_faq_category_manager,faq.category manager,model_faq_category,helpdesk_faq.group_faq_manager,1,1,1,1
+access_faq_tag_user,faq.tag user,model_faq_tag,helpdesk_faq.group_faq_user,1,0,0,0
+access_faq_tag_manager,faq.tag manager,model_faq_tag,helpdesk_faq.group_faq_manager,1,1,1,1
+access_faq_question_user,faq.question user,model_faq_question,helpdesk_faq.group_faq_user,1,0,0,0
+access_faq_question_manager,faq.question manager,model_faq_question,helpdesk_faq.group_faq_manager,1,1,1,1
