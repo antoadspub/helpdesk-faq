@@ -1,1 +1,1 @@
-Custom FAQ Module Odoo 18 CE
+Custom FAQ Module Odoo 18
