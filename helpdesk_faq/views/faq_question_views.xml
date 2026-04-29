@@ -2,13 +2,13 @@
 <odoo>
 
     <!-- ============================================================
-         FAQ — List View
+         FAQ Question — List View
     ============================================================ -->
     <record id="view_faq_question_list" model="ir.ui.view">
         <field name="name">faq.question.list</field>
         <field name="model">faq.question</field>
         <field name="arch" type="xml">
-            <list string="FAQs"
+            <list string="FAQ"
                   decoration-muted="state == 'draft'"
                   decoration-success="state == 'published'">
                 <field name="sequence" widget="handle"/>
@@ -38,7 +38,7 @@
     </record>
 
     <!-- ============================================================
-         FAQ — Form View
+         FAQ Question — Form View
     ============================================================ -->
     <record id="view_faq_question_form" model="ir.ui.view">
         <field name="name">faq.question.form</field>
@@ -78,6 +78,13 @@
                                 <span class="o_stat_text">Not Helpful</span>
                             </div>
                         </div>
+                        <div class="oe_stat_button" style="cursor:default;">
+                            <i class="fa fa-fw fa-paperclip o_button_icon"/>
+                            <div class="o_stat_info">
+                                <field name="attachment_count" class="o_stat_value"/>
+                                <span class="o_stat_text">Attachments</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="oe_title">
                         <label for="name"/>
@@ -105,19 +112,23 @@
                                 placeholder="Write a detailed answer here..."
                                 style="min-height: 200px;"/>
                         </page>
+                        <page string="Attachments" name="attachments">
+                            <div class="alert alert-info mb-3" role="alert">
+                                <i class="fa fa-info-circle me-1"/>
+                                Maximum file size per attachment: <strong>2 MB</strong>.
+                                Supported formats: PDF, Word, Excel, images, and more.
+                            </div>
+                            <field name="attachment_ids" widget="many2many_binary"
+                                string="Attached Files"/>
+                        </page>
                     </notebook>
                 </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
-                    <field name="activity_ids"/>
-                    <field name="message_ids"/>
-                </div>
             </form>
         </field>
     </record>
 
     <!-- ============================================================
-         FAQ — Kanban View
+         FAQ Question — Kanban View
     ============================================================ -->
     <record id="view_faq_question_kanban" model="ir.ui.view">
         <field name="name">faq.question.kanban</field>
@@ -167,13 +178,13 @@
     </record>
 
     <!-- ============================================================
-         FAQ — Search View
+         FAQ Question — Search View
     ============================================================ -->
     <record id="view_faq_question_search" model="ir.ui.view">
         <field name="name">faq.question.search</field>
         <field name="model">faq.question</field>
         <field name="arch" type="xml">
-            <search string="Search FAQs">
+            <search string="Search FAQ">
                 <field name="name" string="Question" filter_domain="[('name', 'ilike', self)]"/>
                 <field name="category_id"/>
                 <field name="tag_ids"/>
@@ -197,17 +208,17 @@
     </record>
 
     <!-- ============================================================
-         FAQ — Actions
+         FAQ Question — Actions
     ============================================================ -->
     <record id="action_faq_question" model="ir.actions.act_window">
-        <field name="name">FAQs</field>
+        <field name="name">FAQ</field>
         <field name="res_model">faq.question</field>
         <field name="view_mode">list,kanban,form</field>
         <field name="search_view_id" ref="view_faq_question_search"/>
         <field name="context">{'search_default_published': 0}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Create your first FAQ!
+                Create your first FAQ question!
             </p>
             <p>
                 Add questions and answers, assign a category,
@@ -217,7 +228,7 @@
     </record>
 
     <record id="action_faq_question_published" model="ir.actions.act_window">
-        <field name="name">Published FAQs</field>
+        <field name="name">Published FAQ</field>
         <field name="res_model">faq.question</field>
         <field name="view_mode">list,kanban,form</field>
         <field name="domain">[('state', '=', 'published')]</field>

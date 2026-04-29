@@ -2,7 +2,7 @@
 {
     'name': 'Helpdesk FAQ',
     'version': '18.0.1.0.0',
-    'category': 'Helpdesk',
+    'category': 'Website/FAQ',
     'summary': 'Manage Frequently Asked Questions with categories and tags',
     'description': """
         Custom FAQ Module for Odoo 18 CE
@@ -13,8 +13,8 @@
         - Draft / Published workflow
         - Role-based access (FAQ Manager / FAQ User)
     """,
-    'author': 'Anto Vincent',
-    'depends': ['base', 'mail', 'website'],
+    'author': 'Custom Development',
+    'depends': ['base', 'website'],
     'data': [
         'security/faq_security.xml',
         'security/ir.model.access.csv',

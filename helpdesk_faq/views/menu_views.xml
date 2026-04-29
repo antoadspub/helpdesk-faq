@@ -16,7 +16,7 @@
     ============================================================ -->
     <menuitem
         id="menu_faq_questions"
-        name="Questions"
+        name="FAQ"
         parent="menu_faq_root"
         action="action_faq_question"
         sequence="10"

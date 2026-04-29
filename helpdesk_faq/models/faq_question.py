@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
+
+MAX_ATTACHMENT_SIZE = 2 * 1024 * 1024  # 2 MB in bytes
 
 
 class FaqQuestion(models.Model):
     _name = 'faq.question'
     _description = 'FAQ Question'
-    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _inherit = []
     _order = 'sequence, id'
 
     # -------------------------------------------------------------------------
@@ -16,7 +18,6 @@ class FaqQuestion(models.Model):
         string='Question',
         required=True,
         translate=True,
-        tracking=True,
     )
     answer = fields.Html(
         string='Answer',
@@ -29,7 +30,6 @@ class FaqQuestion(models.Model):
         string='Category',
         required=True,
         ondelete='restrict',
-        tracking=True,
         index=True,
     )
     tag_ids = fields.Many2many(
@@ -55,7 +55,6 @@ class FaqQuestion(models.Model):
         string='Status',
         default='draft',
         required=True,
-        tracking=True,
         index=True,
     )
     helpful_count = fields.Integer(
@@ -74,6 +73,20 @@ class FaqQuestion(models.Model):
         store=True,
     )
 
+    # ---- Attachments ----
+    attachment_ids = fields.Many2many(
+        comodel_name='ir.attachment',
+        relation='faq_question_attachment_rel',
+        column1='question_id',
+        column2='attachment_id',
+        string='Attachments',
+    )
+    attachment_count = fields.Integer(
+        string='Attachments',
+        compute='_compute_attachment_count',
+    )
+
+
     # -------------------------------------------------------------------------
     # Computed
     # -------------------------------------------------------------------------
@@ -81,6 +94,25 @@ class FaqQuestion(models.Model):
     def _compute_website_published(self):
         for rec in self:
             rec.website_published = rec.state == 'published'
+
+    @api.depends('attachment_ids')
+    def _compute_attachment_count(self):
+        for rec in self:
+            rec.attachment_count = len(rec.attachment_ids)
+
+    # -------------------------------------------------------------------------
+    # Constraints
+    # -------------------------------------------------------------------------
+    @api.constrains('attachment_ids')
+    def _check_attachment_size(self):
+        for rec in self:
+            for attachment in rec.attachment_ids:
+                if attachment.file_size and attachment.file_size > MAX_ATTACHMENT_SIZE:
+                    size_mb = attachment.file_size / (1024 * 1024)
+                    raise ValidationError(
+                        f'Attachment "{attachment.name}" is {size_mb:.1f} MB. '
+                        f'Maximum allowed size is 2 MB per file.'
+                    )
 
     # -------------------------------------------------------------------------
     # Actions
