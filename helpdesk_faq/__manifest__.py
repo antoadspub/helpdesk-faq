@@ -2,10 +2,10 @@
 {
     'name': 'Helpdesk FAQ',
     'version': '19.0.1.0.0',
-    'category': 'Website/FAQ',
+    'category': 'Helpdesk',
     'summary': 'Manage Frequently Asked Questions with categories and tags',
     'description': """
-        Custom FAQ Module for Odoo 19 CE
+        Helpdesk FAQ Module for Odoo 19 CE
         =================================
         - Manage FAQ questions grouped by categories
         - Rich HTML answers
@@ -14,7 +14,7 @@
         - Role-based access (FAQ Manager / FAQ User)
         - File attachments with 2 MB size limit
     """,
-    'author': 'Custom Development',
+    'author': 'Anto Vincent',
     'depends': ['base', 'website'],
     'data': [
         'security/faq_security.xml',
