@@ -59,7 +59,7 @@ class WebsiteFaq(http.Controller):
         }
         return request.render('helpdesk_faq.website_faq_detail', values)
 
-    @http.route('/faq/<int:question_id>/vote', type='json', auth='public', website=True)
+    @http.route('/faq/<int:question_id>/vote', type='jsonrpc', auth='public', website=True)
     def faq_vote(self, question_id, helpful=True, **kwargs):
         """Ajax vote endpoint."""
         question = request.env['faq.question'].sudo().browse(question_id)

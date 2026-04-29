@@ -8,7 +8,6 @@ MAX_ATTACHMENT_SIZE = 2 * 1024 * 1024  # 2 MB in bytes
 class FaqQuestion(models.Model):
     _name = 'faq.question'
     _description = 'FAQ Question'
-    _inherit = []
     _order = 'sequence, id'
 
     # -------------------------------------------------------------------------
@@ -131,12 +130,12 @@ class FaqQuestion(models.Model):
     def action_toggle_helpful(self):
         """Increment helpful counter — called from website controller."""
         self.ensure_one()
-        self.sudo().helpful_count += 1
+        self.sudo().write({'helpful_count': self.helpful_count + 1})
 
     def action_toggle_not_helpful(self):
         """Increment not-helpful counter — called from website controller."""
         self.ensure_one()
-        self.sudo().not_helpful_count += 1
+        self.sudo().write({'not_helpful_count': self.not_helpful_count + 1})
 
     # -------------------------------------------------------------------------
     # Constraints
