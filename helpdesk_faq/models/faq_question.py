@@ -85,7 +85,6 @@ class FaqQuestion(models.Model):
         compute='_compute_attachment_count',
     )
 
-
     # -------------------------------------------------------------------------
     # Computed
     # -------------------------------------------------------------------------
@@ -113,6 +112,14 @@ class FaqQuestion(models.Model):
                         f'Maximum allowed size is 2 MB per file.'
                     )
 
+    _sql_constraints = [
+        (
+            'name_category_unique',
+            'UNIQUE(name, category_id)',
+            'A question with the same text already exists in this category.',
+        )
+    ]
+
     # -------------------------------------------------------------------------
     # Actions
     # -------------------------------------------------------------------------
@@ -136,14 +143,3 @@ class FaqQuestion(models.Model):
         """Increment not-helpful counter — called from website controller."""
         self.ensure_one()
         self.sudo().write({'not_helpful_count': self.not_helpful_count + 1})
-
-    # -------------------------------------------------------------------------
-    # Constraints
-    # -------------------------------------------------------------------------
-    _sql_constraints = [
-        (
-            'name_category_unique',
-            'UNIQUE(name, category_id)',
-            'A question with the same text already exists in this category.',
-        )
-    ]

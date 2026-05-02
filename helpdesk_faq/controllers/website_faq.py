@@ -14,31 +14,24 @@ class WebsiteFaq(http.Controller):
         domain = [('state', '=', 'published')]
 
         if search:
-            domain += [
-                '|',
-                ('name', 'ilike', search),
-                ('answer', 'ilike', search),
-            ]
+            domain += ['|', ('name', 'ilike', search), ('answer', 'ilike', search)]
 
         if category_id:
             domain += [('category_id', '=', int(category_id))]
 
         questions = FaqQuestion.search(domain, order='sequence, id')
-        categories = FaqCategory.search([
-            ('question_ids.state', '=', 'published')
-        ])
+        categories = FaqCategory.search([('question_ids.state', '=', 'published')])
 
         selected_category = None
         if category_id:
             selected_category = FaqCategory.browse(int(category_id)).exists()
 
-        values = {
+        return request.render('helpdesk_faq.website_faq_index', {
             'questions': questions,
             'categories': categories,
             'search': search,
             'selected_category': selected_category,
-        }
-        return request.render('helpdesk_faq.website_faq_index', values)
+        })
 
     @http.route('/faq/<int:question_id>', type='http', auth='public', website=True)
     def faq_detail(self, question_id, **kwargs):
@@ -53,15 +46,14 @@ class WebsiteFaq(http.Controller):
             ('id', '!=', question.id),
         ], limit=5)
 
-        values = {
+        return request.render('helpdesk_faq.website_faq_detail', {
             'question': question,
             'related': related,
-        }
-        return request.render('helpdesk_faq.website_faq_detail', values)
+        })
 
     @http.route('/faq/<int:question_id>/vote', type='jsonrpc', auth='public', website=True)
     def faq_vote(self, question_id, helpful=True, **kwargs):
-        """Ajax vote endpoint."""
+        """Ajax vote endpoint — type=jsonrpc required in Odoo 19."""
         question = request.env['faq.question'].sudo().browse(question_id)
         if not question.exists() or question.state != 'published':
             return {'error': 'Not found'}

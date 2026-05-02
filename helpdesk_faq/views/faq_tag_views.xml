@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- ============================================================
-         FAQ Tag — List View
-    ============================================================ -->
     <record id="view_faq_tag_list" model="ir.ui.view">
         <field name="name">faq.tag.list</field>
         <field name="model">faq.tag</field>
@@ -16,9 +13,6 @@
         </field>
     </record>
 
-    <!-- ============================================================
-         FAQ Tag — Form View
-    ============================================================ -->
     <record id="view_faq_tag_form" model="ir.ui.view">
         <field name="name">faq.tag.form</field>
         <field name="model">faq.tag</field>
@@ -40,20 +34,12 @@
         </field>
     </record>
 
-    <!-- ============================================================
-         FAQ Tag — Action
-    ============================================================ -->
     <record id="action_faq_tag" model="ir.actions.act_window">
         <field name="name">FAQ Tags</field>
         <field name="res_model">faq.tag</field>
         <field name="view_mode">list,form</field>
         <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                Create your first FAQ tag!
-            </p>
-            <p>
-                Tags help users find related questions quickly.
-            </p>
+            <p class="o_view_nocontent_smiling_face">Create your first FAQ tag!</p>
         </field>
     </record>
 

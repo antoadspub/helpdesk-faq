@@ -8,21 +8,16 @@
         <t t-call="website.layout">
             <div id="wrap" class="o_faq_wrap">
 
-                <!-- Hero Banner -->
                 <section class="o_faq_hero bg-light py-5 mb-4">
                     <div class="container text-center">
                         <h1 class="display-5 fw-bold">Frequently Asked Questions</h1>
                         <p class="lead text-muted">Find answers to the most common questions</p>
-
-                        <!-- Search Bar -->
                         <form action="/faq" method="get" class="mt-4">
                             <div class="input-group mx-auto" style="max-width: 500px;">
-                                <input
-                                    type="text"
-                                    name="search"
-                                    class="form-control form-control-lg"
-                                    placeholder="Search questions..."
-                                    t-att-value="search"/>
+                                <input type="text" name="search"
+                                       class="form-control form-control-lg"
+                                       placeholder="Search questions..."
+                                       t-att-value="search"/>
                                 <button class="btn btn-primary" type="submit">
                                     <i class="fa fa-search"/> Search
                                 </button>
@@ -60,8 +55,6 @@
 
                         <!-- Main: Questions -->
                         <div class="col-lg-9">
-
-                            <!-- Search Result Notice -->
                             <t t-if="search">
                                 <div class="alert alert-info mb-3">
                                     <i class="fa fa-info-circle"/>
@@ -70,7 +63,6 @@
                                 </div>
                             </t>
 
-                            <!-- No results -->
                             <t t-if="not questions">
                                 <div class="text-center py-5 text-muted">
                                     <i class="fa fa-question-circle fa-3x mb-3"/>
@@ -78,33 +70,29 @@
                                 </div>
                             </t>
 
-                            <!-- Accordion FAQ List -->
                             <t t-if="questions">
                                 <div class="accordion" id="faqAccordion">
                                     <t t-foreach="questions" t-as="q">
                                         <div class="accordion-item shadow-sm mb-2 border rounded">
-                                            <h2 class="accordion-header" t-attf-id="heading_#{q.id}">
-                                                <button
-                                                    class="accordion-button collapsed fw-semibold"
-                                                    type="button"
-                                                    data-bs-toggle="collapse"
-                                                    t-attf-data-bs-target="#collapse_#{q.id}"
-                                                    aria-expanded="false"
-                                                    t-attf-aria-controls="collapse_#{q.id}">
+                                            <h2 class="accordion-header"
+                                                t-attf-id="heading_#{q.id}">
+                                                <button class="accordion-button collapsed fw-semibold"
+                                                        type="button"
+                                                        data-bs-toggle="collapse"
+                                                        t-attf-data-bs-target="#collapse_#{q.id}"
+                                                        aria-expanded="false"
+                                                        t-attf-aria-controls="collapse_#{q.id}">
                                                     <t t-out="q.name"/>
                                                     <span class="ms-auto me-3 text-muted small">
                                                         <t t-out="q.category_id.name"/>
                                                     </span>
                                                 </button>
                                             </h2>
-                                            <div
-                                                t-attf-id="collapse_#{q.id}"
-                                                class="accordion-collapse collapse"
-                                                t-attf-aria-labelledby="heading_#{q.id}"
-                                                data-bs-parent="#faqAccordion">
+                                            <div t-attf-id="collapse_#{q.id}"
+                                                 class="accordion-collapse collapse"
+                                                 t-attf-aria-labelledby="heading_#{q.id}">
                                                 <div class="accordion-body">
                                                     <t t-out="q.answer"/>
-                                                    <!-- Tags -->
                                                     <div class="mt-3" t-if="q.tag_ids">
                                                         <t t-foreach="q.tag_ids" t-as="tag">
                                                             <span class="badge bg-secondary me-1">
@@ -112,20 +100,17 @@
                                                             </span>
                                                         </t>
                                                     </div>
-                                                    <!-- Helpful Vote -->
                                                     <div class="mt-3 pt-3 border-top d-flex align-items-center gap-3">
                                                         <small class="text-muted">Was this helpful?</small>
-                                                        <button
-                                                            class="btn btn-sm btn-outline-success faq-vote"
-                                                            t-att-data-id="q.id"
-                                                            data-helpful="1">
-                                                            👍 Yes (<span class="vote-count"><t t-out="q.helpful_count"/></span>)
+                                                        <button class="btn btn-sm btn-outline-success faq-vote"
+                                                                t-att-data-id="q.id"
+                                                                data-helpful="1">
+                                                            👍 Yes (<span class="vote-yes"><t t-out="q.helpful_count"/></span>)
                                                         </button>
-                                                        <button
-                                                            class="btn btn-sm btn-outline-danger faq-vote"
-                                                            t-att-data-id="q.id"
-                                                            data-helpful="0">
-                                                            👎 No (<span class="vote-count"><t t-out="q.not_helpful_count"/></span>)
+                                                        <button class="btn btn-sm btn-outline-danger faq-vote"
+                                                                t-att-data-id="q.id"
+                                                                data-helpful="0">
+                                                            👎 No (<span class="vote-no"><t t-out="q.not_helpful_count"/></span>)
                                                         </button>
                                                     </div>
                                                 </div>
@@ -138,12 +123,13 @@
                     </div>
                 </div>
 
-                <!-- Vote JS -->
+                <!-- Vote JS — JSON-RPC style for Odoo 19 -->
                 <script>
                     document.querySelectorAll('.faq-vote').forEach(function(btn) {
                         btn.addEventListener('click', function() {
-                            var questionId = this.dataset.id;
-                            var helpful = this.dataset.helpful === '1';
+                            const questionId = this.dataset.id;
+                            const helpful = this.dataset.helpful === '1';
+                            const row = this.closest('.accordion-body');
                             fetch('/faq/' + questionId + '/vote', {
                                 method: 'POST',
                                 headers: {'Content-Type': 'application/json'},
@@ -155,14 +141,12 @@
                             .then(r => r.json())
                             .then(data => {
                                 if (data.result) {
-                                    var spans = this.querySelectorAll('.vote-count');
-                                    if (helpful) {
-                                        this.querySelector('.vote-count').textContent = data.result.helpful_count;
-                                    } else {
-                                        this.querySelector('.vote-count').textContent = data.result.not_helpful_count;
-                                    }
-                                    this.disabled = true;
-                                    this.classList.add('disabled');
+                                    row.querySelector('.vote-yes').textContent = data.result.helpful_count;
+                                    row.querySelector('.vote-no').textContent = data.result.not_helpful_count;
+                                    row.querySelectorAll('.faq-vote').forEach(b => {
+                                        b.disabled = true;
+                                        b.classList.add('disabled');
+                                    });
                                 }
                             });
                         });
@@ -178,12 +162,11 @@
     ============================================================ -->
     <template id="website_faq_detail" name="FAQ Detail">
         <t t-call="website.layout">
-            <div id="wrap" class="o_faq_detail_wrap">
+            <div id="wrap">
                 <div class="container py-5">
                     <div class="row justify-content-center">
                         <div class="col-lg-8">
 
-                            <!-- Breadcrumb -->
                             <nav aria-label="breadcrumb" class="mb-4">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="/faq">FAQ</a></li>
@@ -198,15 +181,12 @@
                                 </ol>
                             </nav>
 
-                            <!-- Question Card -->
                             <div class="card shadow-sm">
                                 <div class="card-header bg-primary text-white">
                                     <h4 class="mb-0"><t t-out="question.name"/></h4>
                                 </div>
                                 <div class="card-body">
                                     <t t-out="question.answer"/>
-
-                                    <!-- Tags -->
                                     <div class="mt-4" t-if="question.tag_ids">
                                         <t t-foreach="question.tag_ids" t-as="tag">
                                             <span class="badge bg-secondary me-1">
@@ -214,27 +194,22 @@
                                             </span>
                                         </t>
                                     </div>
-
-                                    <!-- Helpful Vote -->
                                     <div class="mt-4 pt-3 border-top">
                                         <p class="fw-semibold">Was this answer helpful?</p>
-                                        <button
-                                            class="btn btn-outline-success me-2 faq-vote"
-                                            t-att-data-id="question.id"
-                                            data-helpful="1">
-                                            👍 Yes (<t t-out="question.helpful_count"/>)
+                                        <button class="btn btn-outline-success me-2 faq-vote"
+                                                t-att-data-id="question.id"
+                                                data-helpful="1">
+                                            👍 Yes (<span class="vote-yes"><t t-out="question.helpful_count"/></span>)
                                         </button>
-                                        <button
-                                            class="btn btn-outline-danger faq-vote"
-                                            t-att-data-id="question.id"
-                                            data-helpful="0">
-                                            👎 No (<t t-out="question.not_helpful_count"/>)
+                                        <button class="btn btn-outline-danger faq-vote"
+                                                t-att-data-id="question.id"
+                                                data-helpful="0">
+                                            👎 No (<span class="vote-no"><t t-out="question.not_helpful_count"/></span>)
                                         </button>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Related Questions -->
                             <div class="mt-5" t-if="related">
                                 <h5 class="mb-3">Related Questions</h5>
                                 <div class="list-group">
@@ -253,6 +228,7 @@
                                     <i class="fa fa-arrow-left me-1"/> Back to FAQ
                                 </a>
                             </div>
+
                         </div>
                     </div>
                 </div>

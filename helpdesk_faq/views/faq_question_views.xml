@@ -14,7 +14,8 @@
                 <field name="sequence" widget="handle"/>
                 <field name="name" string="Question"/>
                 <field name="category_id"/>
-                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                <field name="tag_ids" widget="many2many_tags"
+                       options="{'color_field': 'color'}"/>
                 <field name="helpful_count" string="👍"/>
                 <field name="state" widget="badge"
                     decoration-success="state == 'published'"
@@ -60,9 +61,10 @@
                         invisible="state == 'draft'"
                         groups="helpdesk_faq.group_faq_manager"/>
                     <field name="state" widget="statusbar"
-                        statusbar_visible="draft,published"/>
+                           statusbar_visible="draft,published"/>
                 </header>
                 <sheet>
+                    <!-- Stat buttons: display-only divs (no name required) -->
                     <div class="oe_button_box" name="button_box">
                         <div class="oe_stat_button" style="cursor:default;">
                             <i class="fa fa-fw fa-thumbs-up o_button_icon"/>
@@ -90,15 +92,15 @@
                         <label for="name"/>
                         <h1>
                             <field name="name"
-                                placeholder="Type your question here..."
-                                style="font-size: 1.4rem;"/>
+                                   placeholder="Type your question here..."
+                                   style="font-size: 1.4rem;"/>
                         </h1>
                     </div>
                     <group>
                         <group string="Classification">
                             <field name="category_id"/>
                             <field name="tag_ids" widget="many2many_tags"
-                                options="{'color_field': 'color'}"/>
+                                   options="{'color_field': 'color'}"/>
                         </group>
                         <group string="Settings">
                             <field name="sequence"/>
@@ -108,18 +110,17 @@
                     <notebook>
                         <page string="Answer" name="answer">
                             <field name="answer"
-                                widget="html"
-                                placeholder="Write a detailed answer here..."
-                                style="min-height: 200px;"/>
+                                   widget="html"
+                                   placeholder="Write a detailed answer here..."
+                                   style="min-height: 200px;"/>
                         </page>
                         <page string="Attachments" name="attachments">
                             <div class="alert alert-info mb-3" role="alert">
                                 <i class="fa fa-info-circle me-1"/>
                                 Maximum file size per attachment: <strong>2 MB</strong>.
-                                Supported formats: PDF, Word, Excel, images, and more.
                             </div>
                             <field name="attachment_ids" widget="many2many_binary"
-                                string="Attached Files"/>
+                                   string="Attached Files"/>
                         </page>
                     </notebook>
                 </sheet>
@@ -134,9 +135,7 @@
         <field name="name">faq.question.kanban</field>
         <field name="model">faq.question</field>
         <field name="arch" type="xml">
-            <kanban default_group_by="category_id"
-                    class="o_kanban_small_col"
-                    quick_create="false">
+            <kanban default_group_by="category_id" quick_create="false">
                 <field name="id"/>
                 <field name="name"/>
                 <field name="category_id"/>
@@ -179,16 +178,17 @@
 
     <!-- ============================================================
          FAQ Question — Search View
+         Note: no <group expand="0"> wrapper — removed in Odoo 19
     ============================================================ -->
     <record id="view_faq_question_search" model="ir.ui.view">
         <field name="name">faq.question.search</field>
         <field name="model">faq.question</field>
         <field name="arch" type="xml">
             <search string="Search FAQ">
-                <field name="name" string="Question" filter_domain="[('name', 'ilike', self)]"/>
+                <field name="name" string="Question"
+                       filter_domain="[('name', 'ilike', self)]"/>
                 <field name="category_id"/>
                 <field name="tag_ids"/>
-                <!-- Filters -->
                 <filter string="Published" name="published"
                         domain="[('state', '=', 'published')]"/>
                 <filter string="Draft" name="draft"
@@ -196,26 +196,23 @@
                 <separator/>
                 <filter string="Archived" name="inactive"
                         domain="[('active', '=', False)]"/>
-                <!-- Group By -->
-                <group expand="0" string="Group By">
-                    <filter string="Category" name="group_category"
-                            context="{'group_by': 'category_id'}"/>
-                    <filter string="Status" name="group_state"
-                            context="{'group_by': 'state'}"/>
-                </group>
+                <separator/>
+                <filter string="Category" name="group_category"
+                        context="{'group_by': 'category_id'}"/>
+                <filter string="Status" name="group_state"
+                        context="{'group_by': 'state'}"/>
             </search>
         </field>
     </record>
 
     <!-- ============================================================
-         FAQ Question — Actions
+         Actions
     ============================================================ -->
     <record id="action_faq_question" model="ir.actions.act_window">
         <field name="name">FAQ</field>
         <field name="res_model">faq.question</field>
         <field name="view_mode">list,kanban,form</field>
         <field name="search_view_id" ref="view_faq_question_search"/>
-        <field name="context">{'search_default_published': 0}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create your first FAQ question!
@@ -225,14 +222,6 @@
                 then publish them to make them visible on the website.
             </p>
         </field>
-    </record>
-
-    <record id="action_faq_question_published" model="ir.actions.act_window">
-        <field name="name">Published FAQ</field>
-        <field name="res_model">faq.question</field>
-        <field name="view_mode">list,kanban,form</field>
-        <field name="domain">[('state', '=', 'published')]</field>
-        <field name="search_view_id" ref="view_faq_question_search"/>
     </record>
 
 </odoo>

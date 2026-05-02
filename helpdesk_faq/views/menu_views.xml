@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- ============================================================
-         Root Menu
-    ============================================================ -->
     <menuitem
         id="menu_faq_root"
         name="FAQ"
@@ -11,9 +8,6 @@
         web_icon="helpdesk_faq,static/description/icon.png"
         groups="helpdesk_faq.group_faq_user"/>
 
-    <!-- ============================================================
-         Main Items
-    ============================================================ -->
     <menuitem
         id="menu_faq_questions"
         name="FAQ"
@@ -30,9 +24,6 @@
         sequence="20"
         groups="helpdesk_faq.group_faq_user"/>
 
-    <!-- ============================================================
-         Configuration (Manager only)
-    ============================================================ -->
     <menuitem
         id="menu_faq_config"
         name="Configuration"
