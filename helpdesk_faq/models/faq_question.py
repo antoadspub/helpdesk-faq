@@ -8,6 +8,7 @@ MAX_ATTACHMENT_SIZE = 2 * 1024 * 1024  # 2 MB in bytes
 class FaqQuestion(models.Model):
     _name = 'faq.question'
     _description = 'FAQ Question'
+    _inherit = []
     _order = 'sequence, id'
 
     # -------------------------------------------------------------------------
@@ -85,6 +86,7 @@ class FaqQuestion(models.Model):
         compute='_compute_attachment_count',
     )
 
+
     # -------------------------------------------------------------------------
     # Computed
     # -------------------------------------------------------------------------
@@ -112,14 +114,6 @@ class FaqQuestion(models.Model):
                         f'Maximum allowed size is 2 MB per file.'
                     )
 
-    _sql_constraints = [
-        (
-            'name_category_unique',
-            'UNIQUE(name, category_id)',
-            'A question with the same text already exists in this category.',
-        )
-    ]
-
     # -------------------------------------------------------------------------
     # Actions
     # -------------------------------------------------------------------------
@@ -135,11 +129,35 @@ class FaqQuestion(models.Model):
         self.write({'state': 'draft'})
 
     def action_toggle_helpful(self):
-        """Increment helpful counter — called from website controller."""
+        """Increment helpful counter — called from website controller.
+
+        Uses an atomic SQL increment instead of a Python read-modify-write
+        (`count += 1`), since concurrent votes from different sessions on the
+        same question would otherwise race and lose increments.
+        """
         self.ensure_one()
-        self.sudo().write({'helpful_count': self.helpful_count + 1})
+        self.env.cr.execute(
+            "UPDATE faq_question SET helpful_count = helpful_count + 1 WHERE id = %s",
+            (self.id,),
+        )
+        self.invalidate_recordset(["helpful_count"])
 
     def action_toggle_not_helpful(self):
         """Increment not-helpful counter — called from website controller."""
         self.ensure_one()
-        self.sudo().write({'not_helpful_count': self.not_helpful_count + 1})
+        self.env.cr.execute(
+            "UPDATE faq_question SET not_helpful_count = not_helpful_count + 1 WHERE id = %s",
+            (self.id,),
+        )
+        self.invalidate_recordset(["not_helpful_count"])
+
+    # -------------------------------------------------------------------------
+    # Constraints
+    # -------------------------------------------------------------------------
+    _sql_constraints = [
+        (
+            'name_category_unique',
+            'UNIQUE(name, category_id)',
+            'A question with the same text already exists in this category.',
+        )
+    ]

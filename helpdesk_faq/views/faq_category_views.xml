@@ -34,20 +34,14 @@
                             type="object"
                             class="oe_stat_button"
                             icon="fa-question-circle">
-                            <div class="o_stat_info">
-                                <field name="question_count" class="o_stat_value"/>
-                                <span class="o_stat_text">Questions</span>
-                            </div>
+                            <field name="question_count" string="Questions" widget="statinfo"/>
                         </button>
                         <button
                             name="action_view_questions"
                             type="object"
                             class="oe_stat_button"
                             icon="fa-globe">
-                            <div class="o_stat_info">
-                                <field name="published_question_count" class="o_stat_value"/>
-                                <span class="o_stat_text">Published</span>
-                            </div>
+                            <field name="published_question_count" string="Published" widget="statinfo"/>
                         </button>
                     </div>
                     <div class="oe_title">
@@ -66,8 +60,7 @@
                         </group>
                     </group>
                     <group string="Description">
-                        <field name="description" nolabel="1"
-                               placeholder="Short description of this category..."/>
+                        <field name="description" nolabel="1" placeholder="Short description of this category..."/>
                     </group>
                     <notebook>
                         <page string="Questions" name="questions">
@@ -91,7 +84,6 @@
 
     <!-- ============================================================
          FAQ Category — Search View
-         Note: no <group expand="0"> wrapper — removed in Odoo 19
     ============================================================ -->
     <record id="view_faq_category_search" model="ir.ui.view">
         <field name="name">faq.category.search</field>
@@ -100,11 +92,10 @@
             <search string="Search Categories">
                 <field name="name"/>
                 <field name="description"/>
-                <filter string="Archived" name="inactive"
-                        domain="[('active','=',False)]"/>
-                <separator/>
-                <filter string="Color" name="group_color"
-                        context="{'group_by': 'color'}"/>
+                <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Color" name="group_color" context="{'group_by': 'color'}"/>
+                </group>
             </search>
         </field>
     </record>
